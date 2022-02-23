@@ -17,3 +17,14 @@ yarn start
 ```
 
 to get started with developing locally.
+
+## API
+
+Serverless functions in `api/` are automatically deployed via Vercel. This way we don't have to expose a massive list of addresses to the front end. The less information we have exposed the better.
+
+
+We can fetch the Merkle root with a simple HTTP request.
+
+```
+GET /api/merkle-root
+```

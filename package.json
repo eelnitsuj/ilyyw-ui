@@ -7,8 +7,8 @@
   "scripts": {
     "start": "parcel src/index.html",
     "build": "parcel build src/index.html",
-    "lint": "eslint src/**/*.js",
-    "lint:fix": "eslint --fix src/**/*.js"
+    "lint": "eslint src/**/*.js api/**/*.js",
+    "lint:fix": "eslint --fix src/**/*.js api/**/*.js"
   },
   "devDependencies": {
     "eslint": "^7.12.1",
@@ -24,6 +24,7 @@
     "@emotion/react": "^11.8.1",
     "ethers": "^5.5.4",
     "keccak256": "^1.0.6",
+    "lodash": "^4.17.21",
     "merkletreejs": "^0.2.30",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
