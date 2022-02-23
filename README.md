@@ -14,6 +14,14 @@ See [Emotion](https://github.com/emotion-js/emotion).
 
 ## Development
 
+### Install
+
+```
+yarn install
+```
+
+### Local Dev
+
 Simply run
 
 ```sh
