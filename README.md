@@ -6,7 +6,11 @@
 
 ## Stack 🍔
 
-This React app is built with Parcel, a fast and lightweight bundler. It can deployed with tools like Netlify or Vercel.\
+This React app is built with Parcel, a fast and lightweight bundler. It can deployed with tools like Netlify or Vercel.
+
+### Styling
+
+See [Emotion](https://github.com/emotion-js/emotion).
 
 ## Development
 
