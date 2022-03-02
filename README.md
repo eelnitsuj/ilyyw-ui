@@ -25,7 +25,7 @@ yarn install
 Simply run
 
 ```
-yarn start
+yarn dev
 ```
 
 to get started with developing locally.

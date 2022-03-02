@@ -1,6 +1,7 @@
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
+import { Global, css } from '@emotion/react'
 import axios from 'axios'
 import { isEmpty } from 'lodash'
 
@@ -123,6 +124,11 @@ function App () {
 
   return (
     <>
+      <Global styles={css`
+        body {
+          font-family: 'Your Doodle Font'
+        }
+      `} />
       <Background>
         <Container>
           <div>Hello World!</div>

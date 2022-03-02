@@ -6,8 +6,8 @@
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "source": "src/index.html",
   "scripts": {
-    "start": "parcel",
-    "build": "parcel build",
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html",
     "lint": "eslint src/**/*.js api/**/*.js",
     "lint:fix": "eslint --fix src/**/*.js api/**/*.js",
     "clean": "rimraf .parcel-cache .vercel dist"
