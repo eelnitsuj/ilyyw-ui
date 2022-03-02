@@ -20,7 +20,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "@emotion"
     ],
     "rules": {
         "react/react-in-jsx-scope": 0,

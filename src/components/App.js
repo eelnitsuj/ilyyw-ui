@@ -1,7 +1,27 @@
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
+import styled from '@emotion/styled'
 
+import { BLOCKCHAIN } from '../util/constants'
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../util/contract'
+
+const Background = styled.div`
+  position: absolute;
+  background-image: url("https://d2kq0urxkarztv.cloudfront.net/6009044a3570ec00785217d4/3338036/upload-f7009677-fb6c-495b-99d0-da54c85d6a2d.png?e=webp&nll=true");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const Container = styled.div`
+
+`
 
 function App () {
   const [blockchainState, setBlockchainState] = useState({})
@@ -16,6 +36,11 @@ function App () {
         const { ethereum } = window
         const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
         const chainId = await ethereum.request({ method: 'eth_chainId' })
+
+        if (chainId !== BLOCKCHAIN.RINKEBY.id) {
+          return setMessage(`Please connect to ${BLOCKCHAIN.RINKEBY.name}.`)
+        }
+
         const provider = new ethers.providers.Web3Provider(ethereum)
         const signer = provider.getSigner()
         const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)
@@ -32,6 +57,7 @@ function App () {
         setMessage('Wallet connected.')
       } catch (e) {
         setMessage('There was an error connecting your wallet.')
+        console.error(e)
       } finally {
         setLoading(false)
       }
@@ -39,14 +65,16 @@ function App () {
   }
 
   return (
-    <>
-      <div>Hello World!</div>
-      {loading && <div>Loading...</div>}
-      {blockchainState.accounts && <div>{blockchainState.accounts[0]}</div>}
-      <div>{message}</div>
-      <div>{blockchainState.price && `${ethers.utils.formatEther(blockchainState.price)} ETH to mint`}</div>
-      <button onClick={connectWallet}>Connect Wallet</button>
-    </>
+    <Background>
+      <Container>
+        <div>Hello World!</div>
+        {loading && <div>Loading...</div>}
+        {blockchainState.accounts && <div>{blockchainState.accounts[0]}</div>}
+        <div>{message}</div>
+        <div>{blockchainState.price && `${ethers.utils.formatEther(blockchainState.price)} ETH to mint`}</div>
+        <button onClick={connectWallet}>Connect Wallet</button>
+      </Container>
+    </Background>
   )
 }
 

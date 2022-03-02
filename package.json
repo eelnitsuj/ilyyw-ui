@@ -11,6 +11,7 @@
     "lint:fix": "eslint --fix src/**/*.js api/**/*.js"
   },
   "devDependencies": {
+    "@emotion/eslint-plugin": "^11.7.0",
     "eslint": "^7.12.1",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.22.1",
@@ -23,10 +24,12 @@
   },
   "dependencies": {
     "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
     "ethers": "^5.5.4",
     "keccak256": "^1.0.6",
     "lodash": "^4.17.21",
     "merkletreejs": "^0.2.30",
+    "normalize.css": "^8.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }
