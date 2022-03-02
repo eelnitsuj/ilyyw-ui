@@ -23,6 +23,8 @@ const Container = styled.div`
 
 `
 
+
+
 function App () {
   const [blockchainState, setBlockchainState] = useState({})
   const [loading, setLoading] = useState(false)
@@ -64,6 +66,16 @@ function App () {
     }
   }
 
+  const mint = async (amount) => {
+    const { contract } = blockchainState
+    console.log('mint')
+
+    // TODO: WIP
+    // await contract.mint(amount, { value: 1 })
+  }
+
+  const walletConnected = blockchainState.price && blockchainState.contract
+
   return (
     <Background>
       <Container>
@@ -73,6 +85,12 @@ function App () {
         <div>{message}</div>
         <div>{blockchainState.price && `${ethers.utils.formatEther(blockchainState.price)} ETH to mint`}</div>
         <button onClick={connectWallet}>Connect Wallet</button>
+        {walletConnected &&
+          <div>
+            <h2>Wallet Connected</h2>
+            <button onClick={mint}>Mint!</button>
+          </div>
+        }
       </Container>
     </Background>
   )
