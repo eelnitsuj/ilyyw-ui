@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'Your Doodle Font';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Your Doodle Font'), local('YourDoodleFont'),
+       url('./fonts/your-doodle-font.regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('./fonts/your-doodle-font.regular.woff') format('woff'), /* Modern Browsers */
+       url('./fonts/your-doodle-font.regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
