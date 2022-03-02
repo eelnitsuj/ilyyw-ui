@@ -19,16 +19,13 @@ const Background = styled.div`
   align-items: center;
 `
 
-const Container = styled.div`
-
-`
-
-
+const Container = styled.div``
 
 function App () {
   const [blockchainState, setBlockchainState] = useState({})
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [mintAmount, setMintAmount] = useState(1)
 
   const connectWallet = async () => {
     setLoading(true)
@@ -66,12 +63,28 @@ function App () {
     }
   }
 
-  const mint = async (amount) => {
-    const { contract } = blockchainState
-    console.log('mint')
+  const mint = async () => {
+    const { contract, price } = blockchainState
+    const gasLimit = 210000
+    const value = price * mintAmount
 
-    // TODO: WIP
-    // await contract.mint(amount, { value: 1 })
+    try {
+      setLoading(true)
+      await contract.mint(mintAmount, { value, gasLimit })
+    } catch (e) {
+      setMessage('Error occurred while minting.')
+      console.error(e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const decrementMintAmount = () => {
+    if (mintAmount > 1) setMintAmount(mintAmount - 1)
+  }
+
+  const incrementMintAmount = () => {
+    if (mintAmount < 10) setMintAmount(mintAmount + 1)
   }
 
   const walletConnected = blockchainState.price && blockchainState.contract
@@ -88,6 +101,9 @@ function App () {
         {walletConnected &&
           <div>
             <h2>Wallet Connected</h2>
+            <div>
+              <button onClick={decrementMintAmount}>-</button> {mintAmount} <button onClick={incrementMintAmount}>+</button>
+            </div>
             <button onClick={mint}>Mint!</button>
           </div>
         }
