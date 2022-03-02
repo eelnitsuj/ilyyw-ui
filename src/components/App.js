@@ -1,10 +1,11 @@
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
+import { Global, css } from '@emotion/react'
 import axios from 'axios'
 import { isEmpty } from 'lodash'
 
-import '../util/styles'
+import styles from '../util/styles'
 import { BLOCKCHAIN, PUBLIC_MINT_STATUS } from '../util/constants'
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../util/contract'
 
@@ -123,6 +124,7 @@ function App () {
 
   return (
     <>
+      <Global styles={styles} />
       <Background>
         <Container>
           <div>Hello World!</div>
