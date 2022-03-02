@@ -1,8 +1,10 @@
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
+import axios from 'axios'
+import { isEmpty } from 'lodash'
 
-import { BLOCKCHAIN } from '../util/constants'
+import { BLOCKCHAIN, PUBLIC_MINT_STATUS } from '../util/constants'
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../util/contract'
 
 const Background = styled.div`
@@ -21,11 +23,36 @@ const Background = styled.div`
 
 const Container = styled.div``
 
+async function getMerkleProof (address) {
+  try {
+    const result = await axios.get('/api/merkle-proof', {
+      params: {
+        address,
+      },
+    })
+
+    return result.data.merkleProof
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 function App () {
   const [blockchainState, setBlockchainState] = useState({})
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [mintAmount, setMintAmount] = useState(1)
+  const [merkleProof, setMerkleProof] = useState()
+
+  useEffect(async () => {
+    const { accounts } = blockchainState
+
+    if (accounts && process.env.PUBLIC_MINT_STATUS === PUBLIC_MINT_STATUS.ALLOW_LIST) {
+      const proof = await getMerkleProof(accounts[0])
+
+      setMerkleProof(proof)
+    }
+  }, [blockchainState])
 
   const connectWallet = async () => {
     setLoading(true)
@@ -72,7 +99,9 @@ function App () {
       setLoading(true)
 
       // TODO: Need to set which mint here - public vs merkle
-      await contract.mint(mintAmount, { value, gasLimit })
+      // await contract.mint(mintAmount, { value, gasLimit })
+
+      console.log(blockchainState)
     } catch (e) {
       setMessage('Error occurred while minting.')
       console.error(e)
@@ -103,6 +132,7 @@ function App () {
         {walletConnected &&
           <div>
             <h2>Wallet Connected</h2>
+            <div>{isEmpty(merkleProof) ? 'You are not on the allow list.' : 'Allow list ✅ mint away.'}</div>
             <div>
               <button onClick={decrementMintAmount}>-</button> {mintAmount} <button onClick={incrementMintAmount}>+</button>
             </div>

@@ -12,9 +12,9 @@ export default function handler (request, response) {
 
   const leaf = keccak256(get(request, 'query.address'))
 
-  const proof = merkleTree.getHexProof(leaf)
+  const merkleProof = merkleTree.getHexProof(leaf)
 
   response.status(200).json({
-    data: proof,
+    merkleProof,
   })
 }

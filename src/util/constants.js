@@ -8,3 +8,10 @@ export const BLOCKCHAIN = {
     name: 'Rinkeby',
   },
 }
+
+export const PUBLIC_MINT_STATUS = {
+  CLOSED: 'CLOSED',
+  RESERVED: 'RESERVED',
+  ALLOW_LIST: 'ALLOW_LIST',
+  PUBLIC: 'PUBLIC',
+}

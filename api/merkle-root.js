@@ -12,6 +12,6 @@ export default function handler (_, response) {
   const merkleRoot = merkleTree.getHexRoot()
 
   response.status(200).json({
-    data: merkleRoot,
+    merkleRoot,
   })
 }
