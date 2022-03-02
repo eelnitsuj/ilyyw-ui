@@ -24,11 +24,21 @@ yarn install
 
 Simply run
 
-```sh
+```
 yarn start
 ```
 
 to get started with developing locally.
+
+#### Vercel
+
+If you have Vercel set up locally, you can run:
+
+```
+yarn run vercel dev
+```
+
+In order to use the functions in `api/`, use Vercel.
 
 ## API
 

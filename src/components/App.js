@@ -70,6 +70,8 @@ function App () {
 
     try {
       setLoading(true)
+
+      // TODO: Need to set which mint here - public vs merkle
       await contract.mint(mintAmount, { value, gasLimit })
     } catch (e) {
       setMessage('Error occurred while minting.')
@@ -80,11 +82,11 @@ function App () {
   }
 
   const decrementMintAmount = () => {
-    if (mintAmount > 1) setMintAmount(mintAmount - 1)
+    if (mintAmount > 1) setMintAmount(prevState => prevState - 1)
   }
 
   const incrementMintAmount = () => {
-    if (mintAmount < 10) setMintAmount(mintAmount + 1)
+    if (mintAmount < 10) setMintAmount(prevState => prevState + 1)
   }
 
   const walletConnected = blockchainState.price && blockchainState.contract
