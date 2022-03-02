@@ -1,9 +1,11 @@
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
+import { Global, css } from '@emotion/react'
 import axios from 'axios'
 import { isEmpty } from 'lodash'
 
+import '../util/styles'
 import { BLOCKCHAIN, PUBLIC_MINT_STATUS } from '../util/constants'
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../util/contract'
 
@@ -121,26 +123,28 @@ function App () {
   const walletConnected = blockchainState.price && blockchainState.contract
 
   return (
-    <Background>
-      <Container>
-        <div>Hello World!</div>
-        {loading && <div>Loading...</div>}
-        {blockchainState.accounts && <div>{blockchainState.accounts[0]}</div>}
-        <div>{message}</div>
-        <div>{blockchainState.price && `${ethers.utils.formatEther(blockchainState.price)} ETH to mint`}</div>
-        <button onClick={connectWallet}>Connect Wallet</button>
-        {walletConnected &&
-          <div>
-            <h2>Wallet Connected</h2>
-            <div>{isEmpty(merkleProof) ? 'You are not on the allow list.' : 'Allow list ✅ mint away.'}</div>
+    <>
+      <Background>
+        <Container>
+          <div>Hello World!</div>
+          {loading && <div>Loading...</div>}
+          {blockchainState.accounts && <div>{blockchainState.accounts[0]}</div>}
+          <div>{message}</div>
+          <div>{blockchainState.price && `${ethers.utils.formatEther(blockchainState.price)} ETH to mint`}</div>
+          <button onClick={connectWallet}>Connect Wallet</button>
+          {walletConnected &&
             <div>
-              <button onClick={decrementMintAmount}>-</button> {mintAmount} <button onClick={incrementMintAmount}>+</button>
+              <h2>Wallet Connected</h2>
+              <div>{isEmpty(merkleProof) ? 'You are not on the allow list.' : 'Allow list ✅ mint away.'}</div>
+              <div>
+                <button onClick={decrementMintAmount}>-</button> {mintAmount} <button onClick={incrementMintAmount}>+</button>
+              </div>
+              <button onClick={mint}>Mint!</button>
             </div>
-            <button onClick={mint}>Mint!</button>
-          </div>
-        }
-      </Container>
-    </Background>
+          }
+        </Container>
+      </Background>
+    </>
   )
 }
 

@@ -4,11 +4,13 @@
   "author": "Ryan Chang <ryanchang.eth>",
   "license": "MIT",
   "browserslist": "> 0.5%, last 2 versions, not dead",
+  "source": "src/index.html",
   "scripts": {
-    "start": "parcel src/index.html",
-    "build": "parcel build src/index.html",
+    "start": "parcel",
+    "build": "parcel build",
     "lint": "eslint src/**/*.js api/**/*.js",
-    "lint:fix": "eslint --fix src/**/*.js api/**/*.js"
+    "lint:fix": "eslint --fix src/**/*.js api/**/*.js",
+    "clean": "rimraf .parcel-cache .vercel dist"
   },
   "devDependencies": {
     "@emotion/eslint-plugin": "^11.7.0",
@@ -20,6 +22,7 @@
     "eslint-plugin-react": "^7.28.0",
     "parcel": "^2.3.2",
     "process": "^0.11.10",
+    "rimraf": "^3.0.2",
     "vercel": "^24.0.0"
   },
   "dependencies": {
