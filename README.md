@@ -52,3 +52,7 @@ We can fetch the Merkle root with a simple HTTP request.
 ```
 GET /api/merkle-root
 ```
+
+## Known Issues
+
+https://github.com/parcel-bundler/parcel/issues/7101
