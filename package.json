@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Ryan Chang <ryanchang.eth>",
   "license": "MIT",
-  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "browserslist": "> 0.5%, last 2 versions, not dead, not ios_saf < 13",
   "source": "src/index.html",
   "scripts": {
     "dev": "parcel src/index.html",
