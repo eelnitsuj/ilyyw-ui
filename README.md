@@ -30,6 +30,8 @@ yarn dev
 
 to get started with developing locally.
 
+Remember to create your `.env` file. See `example.env`.
+
 #### Vercel
 
 If you have Vercel set up locally, you can run:
