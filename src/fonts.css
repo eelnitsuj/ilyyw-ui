@@ -5,7 +5,7 @@
 @font-face {
   font-family: 'Your Doodle Font';
   font-style: normal;
-  src: local('Your Doodle Font'), local('YourDoodleFont'),
+  src: local('Your Doodle Font'),
        url('./fonts/your-doodle-font.regular.woff2') format('woff2'),
        url('./fonts/your-doodle-font.regular.woff')  format('woff'),
        url('./fonts/your-doodle-font.regular.ttf')   format('truetype'),
