@@ -1,3 +1,7 @@
+/* Fonts must be loaded through vanilla CSS. I don't think Parcel
+ * knows how to bundle fonts through Emotion's `css` module.
+ */
+
 @font-face {
   font-family: 'Your Doodle Font';
   font-style: normal;
