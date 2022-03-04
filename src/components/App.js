@@ -277,8 +277,9 @@ function App () {
           <div
             css={css`
               position: absolute;
-              top: 11%;
+              top: 2%;
               left: 39%;
+              margin: 15px;
             `}
           >
             <img
@@ -296,7 +297,7 @@ function App () {
             css={css`
               position: absolute;
               top: 29%;
-              left: 59%;
+              left: 75%;
             `}
           >
             <img
@@ -386,7 +387,7 @@ function App () {
           <HeartContainer
             css={css`
               margin-right: -10%;
-              margin-bottom: -20%;
+              margin-bottom: -40%;
             `}
           >
             <a
