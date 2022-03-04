@@ -387,7 +387,7 @@ function App () {
           <HeartContainer
             css={css`
               margin-right: -10%;
-              margin-bottom: -40%;
+              margin-bottom: -41%;
             `}
           >
             <a
