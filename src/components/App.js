@@ -280,6 +280,9 @@ function App () {
               top: 2%;
               left: 39%;
               margin: 15px;
+              @media (max-width: 1200px) {
+                 left: 60%;
+                }
             `}
           >
             <img
