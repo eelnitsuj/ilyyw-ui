@@ -28,27 +28,23 @@ const Background = styled.div`
   align-items: center;
 `
 
-const Heart1 = styled.div`
-  position: absolute;
-  left: 200px;
-  top: 300px;
+const HeartContainer = styled.div`
   background-image: url("https://d2kq0urxkarztv.cloudfront.net/6009044a3570ec00785217d4/3338036/upload-e47ff6e0-d22f-472b-b7ec-7bbb3c8f81f9.png?w=400&e=webp&nll=true");
-  background-size: auto;
-  width: 400px;
-  height: 400px;
+  background-size: cover;
+  width: 350px;
+  height: 350px;
   animation: heart-pulse 4s infinite;
   color: white;
   text-align: center;
-  height: 309px;
   font-size: 26px;
   display: flex;
   justify-content: center; /* align horizontal */
   align-items: center; /* align vertical */
 
   a {
-    -webkit-transform: rotate(-20deg);
-    -moz-transform: rotate(-20deg);
-    transform: rotate(-20deg);
+    -webkit-transform: rotate(-20deg) translate(10px, -20px);
+    -moz-transform: rotate(-20deg) translate(10px, -20px);
+    transform: rotate(-20deg) translate(10px, -20px);
     color: #fff;
     text-decoration: none;
     :hover {
@@ -73,44 +69,6 @@ const Heart1 = styled.div`
   }
 `
 
-const Heart2 = styled.div`
-  position: absolute;
-  left: 55%;
-  top: 55%;
-  background-image: url("https://d2kq0urxkarztv.cloudfront.net/6009044a3570ec00785217d4/3338036/upload-e47ff6e0-d22f-472b-b7ec-7bbb3c8f81f9.png?w=400&e=webp&nll=true");
-  background-size: auto;
-  width: 400px;
-  height: 400px;
-  animation: heart-pulse 4s infinite;
-  color: white;
-  text-align: center;
-  height: 309px;
-  font-size: 26px;
-  display: flex;
-  justify-content: center; /* align horizontal */
-  align-items: center; /* align vertical */
-  a {
-    -webkit-transform: rotate(20deg);
-    -moz-transform: rotate(20deg);
-    transform: rotate(20deg);
-    color: #fff;
-    text-decoration: none;
-    :hover {
-      text-decoration: underline;
-    }
-  }
-  @keyframes heart-pulse {
-    0% {
-      transform: scale(0.6);
-    }
-    50% {
-      transform: scale(0.75);
-    }
-    100% {
-      transform: scale(0.6);
-    }
-  }
-`
 const swing = keyframes`
   0% {
     transform: rotate(40deg);
@@ -195,7 +153,15 @@ const StyledButton = styled.button`
   }
 `
 
-const Container = styled.div``
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0 20px;
+`
+
+const Mint = styled.div`
+  padding: 10px 40px;
+`
 
 async function getMerkleProof (address) {
   try {
@@ -312,13 +278,13 @@ function App () {
             css={css`
               position: absolute;
               top: 11%;
-              left: 35%;
+              left: 39%;
             `}
           >
             <img
               src={Logo}
               css={css`
-                width: 500px;
+                width: 420px;
                 pointer-events: none;
                 animation: ${sway} 5s ease-in-out forwards infinite;
               `}
@@ -329,14 +295,14 @@ function App () {
           <div
             css={css`
               position: absolute;
-              top: 39%;
-              left: 63%;
+              top: 29%;
+              left: 59%;
             `}
           >
             <img
               src={Face1}
               css={css`
-                width: 200px;
+                width: 180px;
                 pointer-events: none;
                 animation: ${swing} 5.5s ease-in-out forwards infinite;
               `}
@@ -347,14 +313,14 @@ function App () {
           <div
             css={css`
               position: absolute;
-              top: 60%;
-              left: 30%;
+              top: 61%;
+              left: 33%;
             `}
           >
             <img
               src={Face2}
               css={css`
-                width: 250px;
+                width: 200px;
                 pointer-events: none;
                 animation: ${swing} 5.5s ease-in-out forwards infinite;
               `}
@@ -363,39 +329,11 @@ function App () {
         </Draggable>
 
         <Container>
-          <div>Hello Weirdos!</div>
-          {loading && <div>Loading...</div>}
-          {blockchainState.accounts && <div>{blockchainState.accounts[0]}</div>}
-          <div>
-            {blockchainState.price &&
-              `${ethers.utils.formatEther(blockchainState.price)} ETH to mint`}
-          </div>
-          <StyledButton onClick={connectWallet} disabled>
-            Coming Soon...
-          </StyledButton>
-          <div>{message}</div>
-          {walletConnected && (
-            <div>
-              <h2>Wallet Connected</h2>
-              <div>
-                {isEmpty(merkleProof)
-                  ? 'You are not on the allow list.'
-                  : 'Allow list ✅ mint away.'}
-              </div>
-              <div>
-                <StyledRoundButton onClick={decrementMintAmount}>
-                  -
-                </StyledRoundButton>{' '}
-                {mintAmount}{' '}
-                <StyledRoundButton onClick={incrementMintAmount}>
-                  +
-                </StyledRoundButton>
-              </div>
-              <button onClick={mint}>Mint!</button>
-            </div>
-          )}
-
-          <Heart1>
+          <HeartContainer
+            css={css`
+              margin-top: -10%;
+            `}
+          >
             <a
               href="http://discord.gg/ilyyw"
               target="_blank"
@@ -405,9 +343,52 @@ function App () {
               <br />
               Discord Server
             </a>
-          </Heart1>
+          </HeartContainer>
 
-          <Heart2>
+          <Mint>
+            <h2>Hello Weirdos!</h2>
+            {loading && <div>Loading...</div>}
+            {blockchainState.accounts && (
+              <div>{blockchainState.accounts[0]}</div>
+            )}
+            <div>
+              {blockchainState.price &&
+                `${ethers.utils.formatEther(
+                  blockchainState.price
+                )} ETH to mint`}
+            </div>
+            <StyledButton onClick={connectWallet} disabled>
+              Coming Soon...
+            </StyledButton>
+            <div>{message}</div>
+            {walletConnected && (
+              <div>
+                <h2>Wallet Connected</h2>
+                <div>
+                  {isEmpty(merkleProof)
+                    ? 'You are not on the allow list.'
+                    : 'Allow list ✅ mint away.'}
+                </div>
+                <div>
+                  <StyledRoundButton onClick={decrementMintAmount}>
+                    -
+                  </StyledRoundButton>{' '}
+                  {mintAmount}{' '}
+                  <StyledRoundButton onClick={incrementMintAmount}>
+                    +
+                  </StyledRoundButton>
+                </div>
+                <button onClick={mint}>Mint!</button>
+              </div>
+            )}
+          </Mint>
+
+          <HeartContainer
+            css={css`
+              margin-right: -10%;
+              margin-bottom: -20%;
+            `}
+          >
             <a
               href="https://twitter.com/ilyywnft"
               target="_blank"
@@ -417,7 +398,7 @@ function App () {
               <br />
               Twitter Profile
             </a>
-          </Heart2>
+          </HeartContainer>
         </Container>
       </Background>
     </>
