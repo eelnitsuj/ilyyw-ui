@@ -280,6 +280,9 @@ function App () {
               top: 2%;
               left: 39%;
               margin: 15px;
+              @media (max-width: 1200px) {
+                 left: 60%;
+                }
             `}
           >
             <img
@@ -288,6 +291,10 @@ function App () {
                 width: 420px;
                 pointer-events: none;
                 animation: ${sway} 5s ease-in-out forwards infinite;
+                @media (max-width: 1200px) {
+                  height: auto;
+                  width: 270px;
+                }
               `}
             />
           </div>
@@ -298,6 +305,10 @@ function App () {
               position: absolute;
               top: 29%;
               left: 75%;
+              @media (max-width: 900px) {
+                top: 40%;
+                left: 75%;
+              }
             `}
           >
             <img
@@ -306,6 +317,10 @@ function App () {
                 width: 180px;
                 pointer-events: none;
                 animation: ${swing} 5.5s ease-in-out forwards infinite;
+                @media (max-width: 900px) {
+                  height: auto;
+                  width: 115px;
+                }
               `}
             />
           </div>
@@ -316,6 +331,10 @@ function App () {
               position: absolute;
               top: 61%;
               left: 33%;
+              @media (max-width: 900px) {
+                top: 55%;
+                left: 5%;
+              }
             `}
           >
             <img
@@ -324,6 +343,10 @@ function App () {
                 width: 200px;
                 pointer-events: none;
                 animation: ${swing} 5.5s ease-in-out forwards infinite;
+                @media (max-width: 900px) {
+                  height: auto;
+                  width: 145px;
+                }
               `}
             />
           </div>
@@ -387,7 +410,7 @@ function App () {
           <HeartContainer
             css={css`
               margin-right: -10%;
-              margin-bottom: -40%;
+              margin-bottom: -41%;
             `}
           >
             <a
