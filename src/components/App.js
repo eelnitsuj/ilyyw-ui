@@ -42,9 +42,9 @@ const HeartContainer = styled.div`
   align-items: center; /* align vertical */
 
   a {
-    -webkit-transform: rotate(-20deg) translate(10px, -20px);
-    -moz-transform: rotate(-20deg) translate(10px, -20px);
-    transform: rotate(-20deg) translate(10px, -20px);
+    -webkit-transform: rotate(-20deg) translate(10px, -28px);
+    -moz-transform: rotate(-20deg) translate(10px, -28px);
+    transform: rotate(-20deg) translate(10px, -28px);
     color: #fff;
     text-decoration: none;
     :hover {
