@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import styled from '@emotion/styled'
 import { Global, css, keyframes } from '@emotion/react'
 import axios from 'axios'
-import { isEmpty } from 'lodash'
+import { isEmpty, truncate } from 'lodash'
 import Draggable from 'react-draggable'
 
 import styles from '../util/styles'
@@ -68,6 +68,11 @@ const HeartContainer = styled.div`
   @media screen and (max-width: 1200px) {
     left: -10px;
   }
+  @media (max-height: 800px) {
+    width: 250px;
+    height: 250px;
+    font-size: 24px;
+  }
 `
 
 const swing = keyframes`
@@ -102,13 +107,13 @@ const StyledRoundButton = styled.button`
   font-weight: bold;
   font-size: 22px;
   color: white;
-  width: 45px;
-  height: 45px;
+  width: 35px;
+  height: 35px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 15px;
+  margin: 0;
   box-shadow: 0px 4px 0px -2px rgba(250, 250, 250, 0.3);
   -webkit-box-shadow: 0px 4px 0px -2px rgba(250, 250, 250, 0.3);
   -moz-box-shadow: 0px 4px 0px -2px rgba(250, 250, 250, 0.3);
@@ -117,6 +122,10 @@ const StyledRoundButton = styled.button`
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
   }
+`
+
+const StyledRoundButtonContnt = styled.span`
+  pointer-events: none;
 `
 
 const StyledButton = styled.button`
@@ -157,11 +166,27 @@ const StyledButton = styled.button`
 const Container = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 20px;
 `
 
 const Mint = styled.div`
   padding: 10px 40px;
+`
+
+const QuantityToggle = styled.div`
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+`
+
+const MintAmount = styled.span`
+  margin: 0 15px;
+`
+
+const MintButtonContainer = styled.div`
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 async function getMerkleProof (address) {
@@ -242,6 +267,7 @@ function App () {
 
   const mint = async () => {
     const { contract, price } = blockchainState
+    // TODO: Set gasLimit
     const gasLimit = 210000
     const value = price * mintAmount
 
@@ -279,22 +305,32 @@ function App () {
             css={css`
               position: absolute;
               top: 2%;
-              left: 39%;
+              left: 40%;
               margin: 15px;
-              @media (max-width: 1200px) {
-                 left: 60%;
-                }
+              @media (max-width: 1400px) {
+                left: 52%;
+              }
+              @media (max-height: 780px) {
+                left: 52%;
+              }
             `}
           >
             <img
               src={Logo}
               css={css`
-                width: 420px;
+                width: 70%;
+                max-width: 725px;
                 pointer-events: none;
                 animation: ${sway} 5s ease-in-out forwards infinite;
                 @media (max-width: 1200px) {
                   height: auto;
-                  width: 270px;
+                  width: 65%;
+                }
+                @media (max-width: 400px) {
+                  width: 60%;
+                }
+                @media (max-height: 1000px) {
+                  width: 45%;
                 }
               `}
             />
@@ -315,12 +351,15 @@ function App () {
             <img
               src={Face1}
               css={css`
-                width: 180px;
+                width: 50%;
                 pointer-events: none;
                 animation: ${swing} 5.5s ease-in-out forwards infinite;
                 @media (max-width: 900px) {
                   height: auto;
                   width: 115px;
+                }
+                @media (max-height: 800px) {
+                  width: 100px;
                 }
               `}
             />
@@ -331,7 +370,7 @@ function App () {
             css={css`
               position: absolute;
               top: 61%;
-              left: 33%;
+              left: 25%;
               @media (max-width: 900px) {
                 top: 55%;
                 left: 5%;
@@ -347,6 +386,9 @@ function App () {
                 @media (max-width: 900px) {
                   height: auto;
                   width: 145px;
+                }
+                @media (max-height: 800px) {
+                  width: 100px;
                 }
               `}
             />
@@ -374,37 +416,44 @@ function App () {
             <h2>Hello Weirdos!</h2>
             {loading && <div>Loading...</div>}
             {blockchainState.accounts && (
-              <div>{blockchainState.accounts[0]}</div>
+              <div>{truncate(blockchainState.accounts[0], { length: 10 })}</div>
             )}
-            <div>
-              {blockchainState.price &&
-                `${ethers.utils.formatEther(
-                  blockchainState.price
-                )} ETH to mint`}
-            </div>
-            <StyledButton onClick={connectWallet} disabled>
-              Coming Soon...
-            </StyledButton>
+            {!walletConnected && (
+              <StyledButton onClick={connectWallet} disabled>
+                Coming Soon!
+              </StyledButton>
+            )}
             <div>{message}</div>
             {walletConnected && (
-              <div>
-                <h2>Wallet Connected</h2>
+              <>
                 <div>
                   {isEmpty(merkleProof)
-                    ? 'You are not on the allow list.'
-                    : 'Allow list ✅ mint away.'}
+                    ? 'You are not on the allow list 🙁'
+                    : 'You are on the allow list! ✅ Mint away.'}
                 </div>
-                <div>
-                  <StyledRoundButton onClick={decrementMintAmount}>
-                    -
-                  </StyledRoundButton>{' '}
-                  {mintAmount}{' '}
-                  <StyledRoundButton onClick={incrementMintAmount}>
-                    +
-                  </StyledRoundButton>
-                </div>
-                <button onClick={mint}>Mint!</button>
-              </div>
+                <MintButtonContainer>
+                  <QuantityToggle>
+                    <StyledRoundButton onClick={decrementMintAmount}>
+                      <StyledRoundButtonContnt>-</StyledRoundButtonContnt>
+                    </StyledRoundButton>
+                    <MintAmount>{mintAmount}</MintAmount>
+                    <StyledRoundButton onClick={incrementMintAmount}>
+                      <StyledRoundButtonContnt>+</StyledRoundButtonContnt>
+                    </StyledRoundButton>
+                  </QuantityToggle>
+                  <StyledButton onClick={mint}>Mint!</StyledButton>
+                  <div
+                    css={css`
+                      margin-top: 10px;
+                    `}
+                  >
+                    {blockchainState.price &&
+                      `${ethers.utils.formatEther(
+                        blockchainState.price.mul(mintAmount)
+                      )} ETH to mint`}
+                  </div>
+                </MintButtonContainer>
+              </>
             )}
           </Mint>
 
