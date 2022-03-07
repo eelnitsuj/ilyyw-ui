@@ -4,7 +4,7 @@ import { get } from 'lodash'
 export default async function handler (request, response) {
   const metadata = get(
     await axios.get(
-      'https://gateway.ipfs.io/ipfs/QmZZsnZDt5vcrcwGyzDd6wzLMBb357pPtZbxC6KvvFEbwY/hidden.json'
+      'https://gateway.ipfs.io/ipfs/QmUGJbt6SVy9Fd4uZ2ga3bhUCbUZfbk4kvnttYx13LX4Wi/hidden.json'
     ),
     'data'
   )

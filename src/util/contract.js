@@ -6,16 +6,6 @@ export const CONTRACT_ABI = [
         name: '_uri',
         type: 'string',
       },
-      {
-        internalType: 'address[]',
-        name: '_payees',
-        type: 'address[]',
-      },
-      {
-        internalType: 'uint256[]',
-        name: '_shares',
-        type: 'uint256[]',
-      },
     ],
     stateMutability: 'nonpayable',
     type: 'constructor',
@@ -62,17 +52,7 @@ export const CONTRACT_ABI = [
   },
   {
     inputs: [],
-    name: 'OwnerIndexOutOfBounds',
-    type: 'error',
-  },
-  {
-    inputs: [],
     name: 'OwnerQueryForNonexistentToken',
-    type: 'error',
-  },
-  {
-    inputs: [],
-    name: 'TokenIndexOutOfBounds',
     type: 'error',
   },
   {
@@ -155,31 +135,6 @@ export const CONTRACT_ABI = [
     inputs: [
       {
         indexed: true,
-        internalType: 'contract IERC20',
-        name: 'token',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'to',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
-    name: 'ERC20PaymentReleased',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
         internalType: 'address',
         name: 'previousOwner',
         type: 'address',
@@ -192,63 +147,6 @@ export const CONTRACT_ABI = [
       },
     ],
     name: 'OwnershipTransferred',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'shares',
-        type: 'uint256',
-      },
-    ],
-    name: 'PayeeAdded',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'from',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
-    name: 'PaymentReceived',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'to',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
-    name: 'PaymentReleased',
     type: 'event',
   },
   {
@@ -313,37 +211,6 @@ export const CONTRACT_ABI = [
       },
     ],
     stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'PRICE',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'bytes32[]',
-        name: '_merkleProof',
-        type: 'bytes32[]',
-      },
-      {
-        internalType: 'uint256',
-        name: '_numberOfMints',
-        type: 'uint256',
-      },
-    ],
-    name: 'allowListMint',
-    outputs: [],
-    stateMutability: 'payable',
     type: 'function',
   },
   {
@@ -424,6 +291,24 @@ export const CONTRACT_ABI = [
       },
     ],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32[]',
+        name: '_merkleProof',
+        type: 'bytes32[]',
+      },
+      {
+        internalType: 'uint256',
+        name: '_numberOfMints',
+        type: 'uint256',
+      },
+    ],
+    name: 'merkleMint',
+    outputs: [],
+    stateMutability: 'payable',
     type: 'function',
   },
   {
@@ -511,19 +396,13 @@ export const CONTRACT_ABI = [
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'index',
-        type: 'uint256',
-      },
-    ],
-    name: 'payee',
+    inputs: [],
+    name: 'price',
     outputs: [
       {
-        internalType: 'address',
+        internalType: 'uint256',
         name: '',
-        type: 'address',
+        type: 'uint256',
       },
     ],
     stateMutability: 'view',
@@ -537,80 +416,6 @@ export const CONTRACT_ABI = [
         internalType: 'enum ILYYW.EPublicMintStatus',
         name: '',
         type: 'uint8',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address payable',
-        name: 'account',
-        type: 'address',
-      },
-    ],
-    name: 'release',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'contract IERC20',
-        name: 'token',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
-    ],
-    name: 'release',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'contract IERC20',
-        name: 'token',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
-    ],
-    name: 'released',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
-    ],
-    name: 'released',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
       },
     ],
     stateMutability: 'view',
@@ -748,11 +553,11 @@ export const CONTRACT_ABI = [
     inputs: [
       {
         internalType: 'uint256',
-        name: '_status',
+        name: '_price',
         type: 'uint256',
       },
     ],
-    name: 'setPublicMintStatus',
+    name: 'setPrice',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -760,20 +565,14 @@ export const CONTRACT_ABI = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
-    ],
-    name: 'shares',
-    outputs: [
-      {
         internalType: 'uint256',
-        name: '',
+        name: '_status',
         type: 'uint256',
       },
     ],
-    stateMutability: 'view',
+    name: 'setPublicMintStatus',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -812,49 +611,6 @@ export const CONTRACT_ABI = [
     inputs: [
       {
         internalType: 'uint256',
-        name: 'index',
-        type: 'uint256',
-      },
-    ],
-    name: 'tokenByIndex',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'index',
-        type: 'uint256',
-      },
-    ],
-    name: 'tokenOfOwnerByIndex',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
         name: 'tokenId',
         type: 'uint256',
       },
@@ -865,51 +621,6 @@ export const CONTRACT_ABI = [
         internalType: 'string',
         name: '',
         type: 'string',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'contract IERC20',
-        name: 'token',
-        type: 'address',
-      },
-    ],
-    name: 'totalReleased',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'totalReleased',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'totalShares',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
       },
     ],
     stateMutability: 'view',
@@ -965,8 +676,35 @@ export const CONTRACT_ABI = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'bytes32[]',
+        name: '_proof',
+        type: 'bytes32[]',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_leaf',
+        type: 'bytes32',
+      },
+    ],
+    name: 'verifyMerkle',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'withdraw',
+    outputs: [],
     stateMutability: 'payable',
-    type: 'receive',
+    type: 'function',
   },
 ]
 
