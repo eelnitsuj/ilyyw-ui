@@ -44,8 +44,18 @@ const IconContainer = styled.li`
   margin-right: 15px;
 `
 
-const SocialIconitem = styled.ul`
+const SocialIconItem = styled.ul`
   width: 15px;
+
+  svg {
+    /* fill: white; */
+    fill: #A779F3;
+
+    path {
+      /* fill: white; */
+      fill: #A779F3
+    }
+  }
 `
 
 const Logo = styled.img`
@@ -71,11 +81,11 @@ function TopNav ({
       <NavRight>
         <IconContainer>
           {socialMedia.map((social) => (
-            <SocialIconitem key={social.name}>
+            <SocialIconItem key={social.name}>
               <a href={social.link} target="_blank" rel="noreferrer">
                 <social.Icon />
               </a>
-            </SocialIconitem>
+            </SocialIconItem>
           ))}
         </IconContainer>
         <Button

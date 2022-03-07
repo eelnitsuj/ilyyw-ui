@@ -82,6 +82,7 @@ const H2 = styled.h2`
 `
 
 const H3 = styled.h3`
+  color: white;
   margin: 0;
   font-size: 2.5rem;
 `
