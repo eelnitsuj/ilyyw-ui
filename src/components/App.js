@@ -1,480 +1,170 @@
+import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
-import { useState, useEffect, useRef } from 'react'
+import { Global } from '@emotion/react'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled'
-import { Global, css, keyframes } from '@emotion/react'
-import axios from 'axios'
-import { isEmpty, truncate } from 'lodash'
-import Draggable from 'react-draggable'
 
 import styles from '../util/styles'
-import { BLOCKCHAIN, PUBLIC_MINT_STATUS } from '../util/constants'
+import TopNav from './TopNav'
+import MobileMenu from './TopNav/MobileMenu'
+import Mint from './Mint'
+import About from './About'
+import Footer from './Footer'
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../util/contract'
-import Face1 from '../../images/face.webp'
-import Face2 from '../../images/face2.webp'
-import Logo from '../../images/logo.webp'
-import Hearts from '../../images/hearts.webp'
-import Sunset from '../../images/weirdassets.webp'
+import { web3Modal } from '../util/blockchain'
+import Background from '../../images/weirdassets.webp'
 
-const Background = styled.div`
+const Oval = styled.div`
   position: absolute;
-  background-image: url("https://d2kq0urxkarztv.cloudfront.net/6009044a3570ec00785217d4/3338036/upload-f7009677-fb6c-495b-99d0-da54c85d6a2d.png?e=webp&nll=true");
+  top: 45%;
+  left: 50%;
+  width: 750px;
+  height: 250px;
+  border-radius: 375px / 125px;
+  background-color: white;
+  transform: rotate(-12deg) translate(-50%, -50%);
+  z-index: -1;
+  opacity: 0.2;
+`
+
+const ContentContainer = styled.div`
+  position: fixed;
+  display: flex;
+  overflow: hidden;
+  background-image: url(${Background});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
 `
-
-const HeartContainer = styled.div`
-  background-image: url("https://d2kq0urxkarztv.cloudfront.net/6009044a3570ec00785217d4/3338036/upload-e47ff6e0-d22f-472b-b7ec-7bbb3c8f81f9.png?w=400&e=webp&nll=true");
-  background-size: cover;
-  width: 350px;
-  height: 350px;
-  animation: heart-pulse 4s infinite;
-  color: white;
-  text-align: center;
-  font-size: 26px;
-  display: flex;
-  justify-content: center; /* align horizontal */
-  align-items: center; /* align vertical */
-
-  a {
-    -webkit-transform: rotate(-20deg) translate(10px, -28px);
-    -moz-transform: rotate(-20deg) translate(10px, -28px);
-    transform: rotate(-20deg) translate(10px, -28px);
-    color: #fff;
-    text-decoration: none;
-    :hover {
-      text-decoration: underline;
-    }
-  }
-
-  @keyframes heart-pulse {
-    0% {
-      transform: scale(0.6);
-    }
-    50% {
-      transform: scale(0.75);
-    }
-    100% {
-      transform: scale(0.6);
-    }
-  }
-
-  @media screen and (max-width: 1200px) {
-    left: -10px;
-  }
-  @media (max-height: 800px) {
-    width: 250px;
-    height: 250px;
-    font-size: 24px;
-  }
-`
-
-const swing = keyframes`
-  0% {
-    transform: rotate(40deg);
-  }
-  50% {
-    transform: rotate(-5deg);
-  }
-  100% {
-    transform: rotate(40deg);
-  }
-`
-
-const sway = keyframes`
-  0%,
-  100% {
-    transform: rotate(-15deg);
-  }
-  50% {
-    transform: rotate(10deg);
-  }
-`
-
-const StyledRoundButton = styled.button`
-  z-index: 2;
-  padding: 10px;
-  border-radius: 100%;
-  border: none;
-  background-color: #bf8bf9;
-  padding: 10px;
-  font-weight: bold;
-  font-size: 22px;
-  color: white;
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  box-shadow: 0px 4px 0px -2px rgba(250, 250, 250, 0.3);
-  -webkit-box-shadow: 0px 4px 0px -2px rgba(250, 250, 250, 0.3);
-  -moz-box-shadow: 0px 4px 0px -2px rgba(250, 250, 250, 0.3);
-  :active {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-  }
-`
-
-const StyledRoundButtonContnt = styled.span`
-  pointer-events: none;
-`
-
-const StyledButton = styled.button`
-  z-index: 2;
-  margin: 10px;
-  font-family: "Your Doodle Font";
-  font-weight: bold;
-  font-size: 30px;
-  padding: 10px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: #fff;
-  box-shadow: 0 0 20px #eee;
-  border-radius: 10px;
-  border: none;
-  width: 250px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  transition: 0.5s;
-  background-image: linear-gradient(
-    to right,
-    #beeb96 0%,
-    #fbc2da 51%,
-    #9746f4 100%
-  );
-  cursor: pointer;
-  display: inline-block;
-  border-radius: 14px;
-  &:hover {
-    transform: scale(1.1);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    margin: 8px 10px 12px;
-    background-position: right center;
-  }
-`
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const Mint = styled.div`
-  padding: 10px 40px;
-`
-
-const QuantityToggle = styled.div`
-  margin: 10px 0;
-  display: flex;
-  align-items: center;
-`
-
-const MintAmount = styled.span`
-  margin: 0 15px;
-`
-
-const MintButtonContainer = styled.div`
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-async function getMerkleProof (address) {
-  try {
-    const result = await axios.get('/api/merkle-proof', {
-      params: {
-        address,
-      },
-    })
-
-    return result.data.merkleProof
-  } catch (e) {
-    console.error(e)
-  }
-}
 
 function App () {
   const [blockchainState, setBlockchainState] = useState({})
-  const [loading, setLoading] = useState(false)
+  const [walletConnecting, setWalletConnecting] = useState(false)
+  const [ethereum, setEthereum] = useState()
+  const [provider, setProvider] = useState()
   const [message, setMessage] = useState('')
-  const [mintAmount, setMintAmount] = useState(1)
-  const [merkleProof, setMerkleProof] = useState()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const location = useLocation()
+  const { pathname } = location
+
+  useEffect(() => {
+    setMobileMenuOpen(false)
+  }, [pathname])
 
   useEffect(async () => {
-    const { accounts } = blockchainState
-
-    if (
-      accounts &&
-      process.env.PUBLIC_MINT_STATUS === PUBLIC_MINT_STATUS.ALLOW_LIST
-    ) {
-      const proof = await getMerkleProof(accounts[0])
-
-      setMerkleProof(proof)
-    }
-  }, [blockchainState])
-
-  const connectWallet = async () => {
-    setLoading(true)
-
-    if (window.ethereum) {
-      try {
-        const { ethereum } = window
-        const accounts = await ethereum.request({
-          method: 'eth_requestAccounts',
+    window.addEventListener('load', async () => {
+      if (window.ethereum) {
+        const chainId = await window.ethereum.request({
+          method: 'eth_chainId',
         })
-        const chainId = await ethereum.request({ method: 'eth_chainId' })
+        setBlockchainState((prevState) => ({ ...prevState, chainId }))
+        console.log('chainId')
+        console.log(chainId)
+      }
+    })
+  }, [])
 
-        if (chainId !== BLOCKCHAIN.RINKEBY.id) {
-          return setMessage(`Please connect to ${BLOCKCHAIN.RINKEBY.name}.`)
+  useEffect(() => {
+    if (ethereum?.on) {
+      const handleAccountsChanged = (accounts) => {
+        console.log('account changed')
+        setBlockchainState((prevState) => ({ ...prevState, accounts }))
+      }
+
+      const handleChainChanged = (chainId) => {
+        console.log('chain changed', chainId)
+        setBlockchainState((prevState) => ({ ...prevState, chainId }))
+      }
+
+      ethereum.on('accountsChanged', handleAccountsChanged)
+      ethereum.on('chainChanged', handleChainChanged)
+
+      return () => {
+        if (ethereum.removeListener) {
+          ethereum.removeListener('accountsChanged', handleAccountsChanged)
+          ethereum.removeListener('chainChanged', handleChainChanged)
         }
-
-        const provider = new ethers.providers.Web3Provider(ethereum)
-        const signer = provider.getSigner()
-        const contract = new ethers.Contract(
-          CONTRACT_ADDRESS,
-          CONTRACT_ABI,
-          signer
-        )
-        const price = await contract.price()
-
-        setBlockchainState((prevState) => ({
-          ...prevState,
-          accounts,
-          chainId,
-          contract,
-          price,
-        }))
-
-        setMessage('Wallet connected.')
-      } catch (e) {
-        setMessage('There was an error connecting your wallet.')
-        console.error(e)
-      } finally {
-        setLoading(false)
       }
     }
-  }
+  }, [ethereum])
 
-  const mint = async () => {
-    const { contract, price } = blockchainState
-    // TODO: Set gasLimit
-    const gasLimit = 210000
-    const value = price * mintAmount
-
+  const connectWallet = async () => {
     try {
-      setLoading(true)
+      setWalletConnecting(true)
 
-      await contract.allowListMint(merkleProof, mintAmount, {
-        value,
-        gasLimit,
+      const ethereum = await web3Modal.connect()
+      setEthereum(ethereum)
+
+      const accounts = await ethereum.request({
+        method: 'eth_requestAccounts',
       })
+      const chainId = await ethereum.request({ method: 'eth_chainId' })
+
+      const provider = new ethers.providers.Web3Provider(ethereum)
+      setProvider(provider)
+
+      console.log('Wallet connected. Connecting to contract now...')
+
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        CONTRACT_ABI,
+        signer
+      )
+      const price = await contract.price()
+
+      console.log('Contract connected.')
+
+      setBlockchainState((prevState) => ({
+        ...prevState,
+        accounts,
+        chainId,
+        contract,
+        price,
+      }))
+
+      setMessage('Wallet connected.')
     } catch (e) {
-      setMessage('Error occurred while minting.')
-      console.error(e)
+      console.error('There was an issue connecting your wallet:', e)
     } finally {
-      setLoading(false)
+      setWalletConnecting(false)
     }
   }
-
-  const decrementMintAmount = () => {
-    if (mintAmount > 1) setMintAmount((prevState) => prevState - 1)
-  }
-
-  const incrementMintAmount = () => {
-    if (mintAmount < 10) setMintAmount((prevState) => prevState + 1)
-  }
-
-  const walletConnected = blockchainState.price && blockchainState.contract
 
   return (
     <>
       <Global styles={styles} />
-      <Background>
-        <Draggable>
-          <div
-            css={css`
-              position: absolute;
-              top: 2%;
-              left: 40%;
-              margin: 15px;
-              @media (max-width: 1400px) {
-                left: 52%;
+      <TopNav
+        blockchainState={blockchainState}
+        connectWallet={connectWallet}
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={() => setMobileMenuOpen((prevState) => !prevState)}
+      />
+      <MobileMenu open={mobileMenuOpen} />
+      <ContentContainer>
+        <AnimatePresence exitBeforeEnter>
+          <Routes location={location} key={location.pathname}>
+            <Route
+              path="/"
+              element={
+                <Mint
+                  blockchainState={blockchainState}
+                  connectWallet={connectWallet}
+                  walletConnecting={walletConnecting}
+                />
               }
-              @media (max-height: 780px) {
-                left: 52%;
-              }
-            `}
-          >
-            <img
-              src={Logo}
-              css={css`
-                width: 70%;
-                max-width: 725px;
-                pointer-events: none;
-                animation: ${sway} 5s ease-in-out forwards infinite;
-                @media (max-width: 1200px) {
-                  height: auto;
-                  width: 65%;
-                }
-                @media (max-width: 400px) {
-                  width: 60%;
-                }
-                @media (max-height: 1000px) {
-                  width: 45%;
-                }
-              `}
             />
-          </div>
-        </Draggable>
-        <Draggable>
-          <div
-            css={css`
-              position: absolute;
-              top: 29%;
-              left: 75%;
-              @media (max-width: 900px) {
-                top: 40%;
-                left: 75%;
-              }
-            `}
-          >
-            <img
-              src={Face1}
-              css={css`
-                width: 50%;
-                pointer-events: none;
-                animation: ${swing} 5.5s ease-in-out forwards infinite;
-                @media (max-width: 900px) {
-                  height: auto;
-                  width: 115px;
-                }
-                @media (max-height: 800px) {
-                  width: 100px;
-                }
-              `}
-            />
-          </div>
-        </Draggable>
-        <Draggable>
-          <div
-            css={css`
-              position: absolute;
-              top: 61%;
-              left: 25%;
-              @media (max-width: 900px) {
-                top: 55%;
-                left: 5%;
-              }
-            `}
-          >
-            <img
-              src={Face2}
-              css={css`
-                width: 200px;
-                pointer-events: none;
-                animation: ${swing} 5.5s ease-in-out forwards infinite;
-                @media (max-width: 900px) {
-                  height: auto;
-                  width: 145px;
-                }
-                @media (max-height: 800px) {
-                  width: 100px;
-                }
-              `}
-            />
-          </div>
-        </Draggable>
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </AnimatePresence>
+        <Oval />
+      </ContentContainer>
 
-        <Container>
-          <HeartContainer
-            css={css`
-              margin-top: -10%;
-            `}
-          >
-            <a
-              href="http://discord.gg/ilyyw"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              The Weirdest
-              <br />
-              Discord Server
-            </a>
-          </HeartContainer>
-
-          <Mint>
-            <h2>Hello Weirdos!</h2>
-            {loading && <div>Loading...</div>}
-            {blockchainState.accounts && (
-              <div>{truncate(blockchainState.accounts[0], { length: 10 })}</div>
-            )}
-            {!walletConnected && (
-              <StyledButton onClick={connectWallet} disabled>
-                Coming Soon!
-              </StyledButton>
-            )}
-            <div>{message}</div>
-            {walletConnected && (
-              <>
-                <div>
-                  {isEmpty(merkleProof)
-                    ? 'You are not on the allow list 🙁'
-                    : 'You are on the allow list! ✅ Mint away.'}
-                </div>
-                <MintButtonContainer>
-                  <QuantityToggle>
-                    <StyledRoundButton onClick={decrementMintAmount}>
-                      <StyledRoundButtonContnt>-</StyledRoundButtonContnt>
-                    </StyledRoundButton>
-                    <MintAmount>{mintAmount}</MintAmount>
-                    <StyledRoundButton onClick={incrementMintAmount}>
-                      <StyledRoundButtonContnt>+</StyledRoundButtonContnt>
-                    </StyledRoundButton>
-                  </QuantityToggle>
-                  <StyledButton onClick={mint}>Mint!</StyledButton>
-                  <div
-                    css={css`
-                      margin-top: 10px;
-                    `}
-                  >
-                    {blockchainState.price &&
-                      `${ethers.utils.formatEther(
-                        blockchainState.price.mul(mintAmount)
-                      )} ETH to mint`}
-                  </div>
-                </MintButtonContainer>
-              </>
-            )}
-          </Mint>
-
-          <HeartContainer
-            css={css`
-              margin-right: -10%;
-              margin-bottom: -41%;
-            `}
-          >
-            <a
-              href="https://twitter.com/ilyywnft"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              The Weirdest
-              <br />
-              Twitter Profile
-            </a>
-          </HeartContainer>
-        </Container>
-      </Background>
+      <Footer />
     </>
   )
 }
