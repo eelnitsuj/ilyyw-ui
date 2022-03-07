@@ -111,23 +111,6 @@ const Messages = styled.div`
   font-size: 0.7em;
 `
 
-//  Moved this into App.js so it doesn't disappear when transitioning pages
-//  If there is an issue, I left the previous iteration of the Oval Component
-//  in both Mint and About just in case
-
-// const Oval = styled.div`
-//   position: absolute;
-//   top: 40%;
-//   left: 50%;
-//   width: 750px;
-//   height: 250px;
-//   border-radius: 375px / 125px;
-//   background-color: white;
-//   transform: rotate(-12deg) translate(-50%, -50%);
-//   z-index: -1;
-//   opacity: 0.2;
-// `
-
 async function getMerkleProof (address) {
   try {
     const result = await axios.get('/api/merkle-proof', {
@@ -271,6 +254,8 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
                 css={css`
                   min-width: 220px;
                 `}
+                // TODO: Enable when live
+                disabled
               >
                 Connect Wallet
               </Button>
