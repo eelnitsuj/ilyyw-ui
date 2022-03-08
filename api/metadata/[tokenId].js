@@ -10,7 +10,7 @@ export default async function handler (request, response) {
   )
 
   response
-    .setHeader('Cache-Control', 'max-age=172800')
+    .setHeader('Cache-Control', 'public, max-age=172800')
     .status(200)
     .json(metadata)
 }
