@@ -199,7 +199,8 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
           Successfully minted 🙂 see transaction:{' '}
           <a href={`https://etherscan.io/tx/${tx.hash}`}>
             https://etherscan.io/tx/{tx.hash}
-          </a>.
+          </a>
+          .
           <br />
           You can view your new tokens on OpenSea or LooksRare!
         </>

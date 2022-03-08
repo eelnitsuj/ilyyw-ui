@@ -9,5 +9,8 @@ export default async function handler (request, response) {
     'data'
   )
 
-  response.status(200).json(metadata)
+  response
+    .setHeader('Cache-Control', 'max-age=172800')
+    .status(200)
+    .json(metadata)
 }
