@@ -3077,6 +3077,11 @@ export const rawAddresses = [
   '0xc1227f3518c2d5a3f22e6f749ff0bf40e1283753',
   '0x2dddc3dae54da8c39b49c6cc2f9d5d9bcc2705c1',
   '0x08cce46e85be21e991919ff4a0be752a843d646d',
+  '0x21596a22d0c6284e0d97a19a9c3da0f10540720b',
+  '0x96c6027ee251f33b0f63b3d60eb4acb5fbc3dc1b',
+  '0x3d7439f347403d1737712aefa1a862c359fd8f31',
+  '0x837ba3547bbe579a43dd0e9ea8608d931a517b52',
+  '0x862ffe14939c39c6d7ac18ceb4728ebf8257ef90',
 ]
 
 export const cleanedAddresses = uniq(rawAddresses.map((a) => a.toLowerCase()))
