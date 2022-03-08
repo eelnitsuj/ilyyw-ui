@@ -22,4 +22,8 @@ export const styles = css`
   }
 `
 
+export const colors = {
+  weirdPurple: '#a779f3',
+}
+
 export default styles

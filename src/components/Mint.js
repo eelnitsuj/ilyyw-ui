@@ -11,6 +11,7 @@ import { useInterval } from '../util/hooks'
 import { APP_NETWORK, PAUSE } from '../util/blockchain'
 import HeartContainer from './HeartContainer'
 import Button from './Button'
+import { colors } from '../util/styles'
 
 const MintSection = styled(motion.section)`
   display: flex;
@@ -107,8 +108,14 @@ const ContractAddress = styled.div`
 `
 
 const Messages = styled.div`
-  margin-top: 9px;
-  font-size: 0.7em;
+  margin-top: 11px;
+  font-size: 0.8em;
+  text-align: center;
+  color: #fff;
+
+  a {
+    color: ${colors.weirdPurple};
+  }
 `
 
 async function getMerkleProof (address) {
@@ -189,10 +196,12 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
 
       setMessage(
         <>
-          Mined, see transaction:{' '}
+          Successfully minted 🙂 see transaction:{' '}
           <a href={`https://etherscan.io/tx/${tx.hash}`}>
-            https://etherscan.io/tx/${tx.hash}
-          </a>
+            https://etherscan.io/tx/{tx.hash}
+          </a>.
+          <br />
+          You can view your new tokens on OpenSea or LooksRare!
         </>
       )
     } catch (e) {
