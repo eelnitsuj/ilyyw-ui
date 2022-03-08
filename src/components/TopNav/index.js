@@ -49,11 +49,11 @@ const SocialIconItem = styled.ul`
 
   svg {
     /* fill: white; */
-    fill: #A779F3;
+    fill: #a779f3;
 
     path {
       /* fill: white; */
-      fill: #A779F3
+      fill: #a779f3;
     }
   }
 `

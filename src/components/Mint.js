@@ -234,7 +234,8 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
     >
       {!correctChain && (
         <ConnectYourWallet>
-          Please switch your network to {APP_NETWORK.name} and refresh your browser to mint.
+          Please switch your network to {APP_NETWORK.name} and refresh your
+          browser to mint.
         </ConnectYourWallet>
       )}
 
@@ -296,7 +297,11 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
               {minting ? 'Minting...' : `Mint (${priceMultiplied}E)`}
             </Button>
             <Messages>{message}</Messages>
-            {process.env.NODE_ENV === 'development' && <ContractAddress><a href={contractHref}>Contract</a></ContractAddress>}
+            {process.env.NODE_ENV === 'development' && (
+              <ContractAddress>
+                <a href={contractHref}>Contract</a>
+              </ContractAddress>
+            )}
           </MintButtonContainer>
 
           <HeartContainer>
