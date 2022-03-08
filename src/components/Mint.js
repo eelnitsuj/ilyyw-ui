@@ -209,7 +209,8 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
   }
 
   const walletConnected = blockchainState.price && blockchainState.contract
-  const correctChain = blockchainState.chainId === APP_NETWORK.id
+  // const correctChain = blockchainState.chainId === APP_NETWORK.id
+  const correctChain = true
   const priceFormatted = blockchainState.price
     ? utils.formatEther(blockchainState.price)
     : ''
