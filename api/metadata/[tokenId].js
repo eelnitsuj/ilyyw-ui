@@ -9,11 +9,5 @@ export default async function handler (request, response) {
     'data'
   )
 
-  // TODO: Maybe enumerate the hidden tokens?
-  // const result = {
-  //   ...metadata,
-  //   name: `${metadata.name} #${request.query.tokenId}`,
-  // }
-
   response.status(200).json(metadata)
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { utils } from 'ethers'
+import { Contract, utils } from 'ethers'
 import styled from '@emotion/styled'
 import axios from 'axios'
 import { get, isEmpty } from 'lodash'
@@ -101,10 +101,10 @@ const ConnectYourWallet = styled.div`
   color: white;
 `
 
-// const ContractAddress = styled.div`
-//   margin-top: 10px;
-//   font-size: 0.7em;
-// `
+const ContractAddress = styled.div`
+  margin-top: 10px;
+  font-size: 0.7em;
+`
 
 const Messages = styled.div`
   margin-top: 9px;
@@ -128,7 +128,6 @@ async function getMerkleProof (address) {
 function Mint ({ blockchainState, connectWallet, walletConnecting }) {
   const [mintAmount, setMintAmount] = useState(1)
   const [merkleProof, setMerkleProof] = useState()
-  // TODO: Do I really need to make this call the contract? Na...
   const [maxTokenSupply, setMaxTokenSupply] = useState(10000)
   const [totalSupply, setTotalSupply] = useState(0)
   const [minting, setMinting] = useState(false)
@@ -220,9 +219,9 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
     ? utils.formatEther(blockchainState.price.mul(mintAmount))
     : ''
 
-  // const contractAddress = get(blockchainState, 'contract.address')
+  const contractAddress = get(blockchainState, 'contract.address')
   // TODO: Remember to change to mainnet!
-  // const contractHref = `https://rinkeby.etherscan.io/address/${contractAddress}`
+  const contractHref = `https://rinkeby.etherscan.io/address/${contractAddress}`
 
   const weirdListStatus = isEmpty(merkleProof)
     ? 'You are not on the Weird List 🙁'
@@ -236,7 +235,7 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
     >
       {!correctChain && (
         <ConnectYourWallet>
-          Please connect to {APP_NETWORK.name} and refresh your browser to mint.
+          Please switch your network to {APP_NETWORK.name} and refresh your browser to mint.
         </ConnectYourWallet>
       )}
 
@@ -254,8 +253,6 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
                 css={css`
                   min-width: 220px;
                 `}
-                // TODO: Enable when live
-                disabled
               >
                 Connect Wallet
               </Button>
@@ -300,6 +297,7 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
               {minting ? 'Minting...' : `Mint (${priceMultiplied}E)`}
             </Button>
             <Messages>{message}</Messages>
+            {process.env.NODE_ENV === 'development' && <ContractAddress><a href={contractHref}>Contract</a></ContractAddress>}
           </MintButtonContainer>
 
           <HeartContainer>
