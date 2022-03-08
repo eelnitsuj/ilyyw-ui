@@ -182,6 +182,8 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
   }
 
   const mint = async () => {
+    console.log('Contract is paused!')
+    return
     const { contract, price } = blockchainState
     const value = price.mul(mintAmount)
 
@@ -257,9 +259,10 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
               )
             : (
             <>
-              <h1>Weirdlist is live!</h1>
+              <h1>Raffle Mint Coming Soon!</h1>
               <Button
                 onClick={connectWallet}
+                disabled
                 css={css`
                   min-width: 220px;
                 `}
@@ -299,7 +302,8 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
             </QuantityToggle>
             <Button
               onClick={mint}
-              disabled={isEmpty(merkleProof) || minting}
+              // disabled={isEmpty(merkleProof) || minting}
+              disabled
               css={css`
                 width: 180px;
               `}
