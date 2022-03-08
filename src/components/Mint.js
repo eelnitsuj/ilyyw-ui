@@ -247,7 +247,7 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
               )
             : (
             <>
-              <h1>Weirdlist is coming soon!</h1>
+              <h1>Weirdlist is live!</h1>
               <Button
                 onClick={connectWallet}
                 css={css`
