@@ -1,6 +1,6 @@
 import { uniq } from 'lodash'
 
-const rawAddresses = [
+export const rawAddresses = [
   '0x831cc962149e4f14885f6157a6218c4c44728b74',
   '0xe42c2833c2387606a591a3dd7db1e0608bb6d6c3',
   '0xd4506ce5354c16c44ca9639107fe64f9c220e697',
@@ -3063,6 +3063,18 @@ const rawAddresses = [
   '0x09E5775097abb28205726AF83e2bc606Dd6cC5F5',
   '0xd1B6aDA1491DA02e628c5dbaAA61e3029636EEB8',
   '0x4855c67E7e1574f7d9b86F366CB79594Fb7Ccfa2',
+  '0x4F3019193157680d97a42a47b1313f0b5807E702',
+  '0xeEBc7aF3C574a6E7EdA8F07B4a35736721B49392',
+  '0x7643dED4eb8194756f4b22f194352afDb1E6A91A',
+  '0x04cA8F9d7dC3212c3eA8bd7546B7408bc163BDA6',
+  '0x808DD5A6B86FF831624dfc4dE0401cee12aCB0af',
+  '0xED535b3fb0a21F1b286832fc868ACc04F276e680',
+  '0x8f304df6e3aC7E93e8db1Eb576a1646FCC1e9BE0',
+  '0x144f51fec9ac2f296ff7165bf238fb00e5f70cdb',
+  '0xeA7c803D8d3618ca3A74c00699dEd362Be084628',
+  '0x2cecf1b9e358bd9b213533b45ea04d8c7032ddd4',
 ]
 
-export default uniq(rawAddresses.map((a) => a.toLowerCase()))
+export const cleanedAddresses = uniq(rawAddresses.map((a) => a.toLowerCase()))
+
+export default cleanedAddresses

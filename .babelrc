@@ -1,4 +1,7 @@
 {
+  "presets": [
+    "@parcel/babel-preset-env"
+  ],
   "plugins": [
     "@emotion/babel-plugin"
   ]
