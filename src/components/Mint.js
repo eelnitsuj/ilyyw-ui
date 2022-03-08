@@ -187,12 +187,11 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
 
       await tx.wait()
 
-      // TODO: Remember to change to mainnet!
       setMessage(
         <>
           Mined, see transaction:{' '}
-          <a href={`https://rinkeby.etherscan.io/tx/${tx.hash}`}>
-            https://rinkeby.etherscan.io/tx/${tx.hash}
+          <a href={`https://etherscan.io/tx/${tx.hash}`}>
+            https://etherscan.io/tx/${tx.hash}
           </a>
         </>
       )
@@ -220,8 +219,7 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
     : ''
 
   const contractAddress = get(blockchainState, 'contract.address')
-  // TODO: Remember to change to mainnet!
-  const contractHref = `https://rinkeby.etherscan.io/address/${contractAddress}`
+  const contractHref = `https://etherscan.io/address/${contractAddress}`
 
   const weirdListStatus = isEmpty(merkleProof)
     ? 'You are not on the Weird List 🙁'
