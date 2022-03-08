@@ -3076,6 +3076,7 @@ export const rawAddresses = [
   '0xa75a18d018be21c6d19ca7e3df0d2f7d73f0bd88',
   '0xc1227f3518c2d5a3f22e6f749ff0bf40e1283753',
   '0x2dddc3dae54da8c39b49c6cc2f9d5d9bcc2705c1',
+  '0x08cce46e85be21e991919ff4a0be752a843d646d',
 ]
 
 export const cleanedAddresses = uniq(rawAddresses.map((a) => a.toLowerCase()))
