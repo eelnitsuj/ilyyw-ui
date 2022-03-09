@@ -96,7 +96,8 @@ function TopNav ({
             min-width: 200px;
           `}
           onClick={connectWallet}
-          disabled={walletConnected || !correctChain}
+          // disabled={walletConnected || !correctChain}
+          disabled
         >
           {walletConnected
             ? `Connected (${truncate(blockchainState.accounts[0], {

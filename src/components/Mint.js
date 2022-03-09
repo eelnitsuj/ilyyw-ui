@@ -248,14 +248,14 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
       animate={{ opacity: 1, transition: { duration: 0.6 } }}
       exit={{ opacity: 0, transition: { duration: 0.6 } }}
     >
-      {!correctChain && (
+      {false && !correctChain && (
         <ConnectYourWallet>
           Please switch your network to {APP_NETWORK.name} and refresh your
           browser to mint.
         </ConnectYourWallet>
       )}
 
-      {correctChain && !walletConnected && (
+      {false && correctChain && !walletConnected && (
         <ConnectYourWallet>
           {walletConnecting
             ? (
@@ -276,19 +276,19 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
               )}
         </ConnectYourWallet>
       )}
-      {correctChain && walletConnected && (
-        <>
           <HeartContainer>
-            <H3>{priceFormatted}</H3>
-            <H4>Ether/Weirdo</H4>
+            <H3>10000</H3>
+            <H4>/{maxTokenSupply} minted</H4>
           </HeartContainer>
 
           <MintButtonContainer>
             <H2>
-              {checkingWeirdList && 'Checking status...'}
-              {!checkingWeirdList && weirdListStatus}
+              Sold out!
             </H2>
-            <QuantityToggle>
+            <Messages>
+              Head to <a href="https://opensea.io/collection/ilyyw">OpenSea</a> to see the collection.
+            </Messages>
+            {/* <QuantityToggle>
               <StyledRoundButton
                 onClick={decrementMintAmount}
                 disabled={isEmpty(merkleProof) || mintAmount <= 1}
@@ -312,20 +312,18 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
             >
               {minting ? 'Minting...' : `Mint (${priceMultiplied}E)`}
             </Button>
-            <Messages>{message}</Messages>
+
             {process.env.NODE_ENV === 'development' && (
               <ContractAddress>
                 <a href={contractHref}>Contract</a>
               </ContractAddress>
-            )}
+            )} */}
           </MintButtonContainer>
 
           <HeartContainer>
-            <H3>{totalSupply ? totalSupply.toString() : '--'}</H3>
+            <H3>10000</H3>
             <H4>/{maxTokenSupply} minted</H4>
           </HeartContainer>
-        </>
-      )}
     </MintSection>
   )
 }
