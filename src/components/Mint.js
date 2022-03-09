@@ -35,6 +35,7 @@ const QuantityToggle = styled.div`
 `
 
 const MintAmount = styled.span`
+  font-size: 25px;
   margin: 0 15px;
   color: white;
 `
@@ -59,8 +60,8 @@ const StyledRoundButton = styled.button`
   font-weight: bold;
   font-size: 0.8rem;
   color: white;
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -112,6 +113,7 @@ const Messages = styled.div`
   font-size: 0.8em;
   text-align: center;
   color: #fff;
+  max-width: 500px;
 
   a {
     color: ${colors.weirdPurple};
@@ -178,12 +180,14 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
   }
 
   const incrementMintAmount = () => {
-    if (mintAmount < 3) setMintAmount((prevState) => prevState + 1)
+    if (mintAmount < 2) setMintAmount((prevState) => prevState + 1)
   }
 
   const mint = async () => {
-    console.log('Contract is paused!')
-    return
+    if (mintAmount > 2) {
+      return setMessage('Max mint amount is 2 for raffle mint!')
+    }
+
     const { contract, price } = blockchainState
     const value = price.mul(mintAmount)
 
@@ -235,8 +239,8 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
   const contractHref = `https://etherscan.io/address/${contractAddress}`
 
   const weirdListStatus = isEmpty(merkleProof)
-    ? 'You are not on the Weird List 🙁'
-    : 'You are on the Weird List!'
+    ? 'You are not on the raffle list 🙁'
+    : 'You can mint!'
 
   return (
     <MintSection
@@ -259,10 +263,9 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
               )
             : (
             <>
-              <h1>Raffle Mint Coming Soon!</h1>
+              <h1>Raffle Mint Live!</h1>
               <Button
                 onClick={connectWallet}
-                disabled
                 css={css`
                   min-width: 220px;
                 `}
@@ -282,28 +285,27 @@ function Mint ({ blockchainState, connectWallet, walletConnecting }) {
 
           <MintButtonContainer>
             <H2>
-              {checkingWeirdList && 'Checking Weird List status...'}
+              {checkingWeirdList && 'Checking status...'}
               {!checkingWeirdList && weirdListStatus}
             </H2>
             <QuantityToggle>
               <StyledRoundButton
                 onClick={decrementMintAmount}
-                disabled={isEmpty(merkleProof)}
+                disabled={isEmpty(merkleProof) || mintAmount <= 1}
               >
                 <StyledRoundButtonContent>-</StyledRoundButtonContent>
               </StyledRoundButton>
               <MintAmount>{mintAmount}</MintAmount>
               <StyledRoundButton
                 onClick={incrementMintAmount}
-                disabled={isEmpty(merkleProof)}
+                disabled={isEmpty(merkleProof) || mintAmount >= 2}
               >
                 <StyledRoundButtonContent>+</StyledRoundButtonContent>
               </StyledRoundButton>
             </QuantityToggle>
             <Button
               onClick={mint}
-              // disabled={isEmpty(merkleProof) || minting}
-              disabled
+              disabled={isEmpty(merkleProof) || minting}
               css={css`
                 width: 180px;
               `}
